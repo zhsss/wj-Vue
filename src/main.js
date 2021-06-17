@@ -27,9 +27,7 @@ router.beforeEach((to, from, next) => {
     }
     if (to.meta.requireAuth) {
         if (store.state.user.username) {
-            if (store.state.user.username) {
-                next()
-            }
+            next()
         } else {
             next({
                 path: 'login',
@@ -41,21 +39,25 @@ router.beforeEach((to, from, next) => {
     }
 })
 
-const initAdminMenu = (router, store) => {
+export const initAdminMenu = (router, store) => {
     if (store.state.adminMenus.length > 0) {
         return
     }
     axios.get('/menu').then(resp => {
         if (resp && resp.status === 200) {
-            var fmtRoutes = formatRoutes(resp.data)
+            var fmtRoutes = formatRoutes(resp.data.result)
             router.addRoutes(fmtRoutes)
             store.commit('initAdminMenu', fmtRoutes)
         }
     })
 }
 
-const formatRoutes = (routes) => {
+export const formatRoutes = (routes) => {
+    console.log(routes)
     let fmtRoutes = []
+    if (!routes) {
+        return
+    }
     routes.forEach(route => {
         if (route.children) {
             route.children = formatRoutes(route.children)

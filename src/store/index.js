@@ -13,7 +13,7 @@ export default new Vuex.Store({
         user: {
             username: window.localStorage.getItem('user' || '[]') == null ? '' : JSON.parse(window.localStorage.getItem('user' || '[]')).username
         },
-        adminMenu: []
+        adminMenus: []
     },
     mutations: {
         login(state, user) {
@@ -21,7 +21,7 @@ export default new Vuex.Store({
             window.localStorage.setItem('user', JSON.stringify(user))
         },
         initAdminMenu(state, menus) {
-            state.adminMenu = menus
+            state.adminMenus = menus
         }
     }
 

@@ -1,12 +1,11 @@
+/* eslint-disable func-call-spacing */
 /* eslint-disable no-undef */
 /* eslint-disable eol-last */
 /* eslint-disable indent */
 import Vue from 'vue'
 import Router from 'vue-router'
-import AppIndex from '@/components/home/AppIndex'
 import Login from '@/components/Login'
 import Home from '@/components/Home'
-import Article from '@/components/strategy/Article'
 import ArticleDetails from '@/components/strategy/ArticleDetails'
 import ArticleEditor from '@/components/admin/content/ArticleEditor'
 import AdminIndex from '@/components/admin/AdminIndex'
@@ -22,18 +21,14 @@ export default new Router({
             children: [{
                     path: '/index',
                     name: 'AppIndex',
-                    component: AppIndex,
-                    meta: {
-                        requireAuth: true
-                    }
+                    component: () =>
+                        import ('../components/home/AppIndex')
                 },
                 {
                     path: '/strategy',
                     name: 'Strategy',
-                    component: Article,
-                    meta: {
-                        requireAuth: true
-                    }
+                    component: () =>
+                        import ('../components/strategy/Article')
                 },
                 {
                     path: '/strategy/article',
