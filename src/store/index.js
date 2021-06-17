@@ -12,12 +12,16 @@ export default new Vuex.Store({
     state: {
         user: {
             username: window.localStorage.getItem('user' || '[]') == null ? '' : JSON.parse(window.localStorage.getItem('user' || '[]')).username
-        }
+        },
+        adminMenu: []
     },
     mutations: {
         login(state, user) {
             state.user = user
             window.localStorage.setItem('user', JSON.stringify(user))
+        },
+        initAdminMenu(state, menus) {
+            state.adminMenu = menus
         }
     }
 

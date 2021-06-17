@@ -9,19 +9,27 @@ import router from './router'
 import store from './store'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import mavonEditor from 'mavon-editor'
 
 var axios = require('axios')
 axios.defaults.baseURL = 'http://localhost:8443/api'
     // 设置反向代理，前端请求默认发送到 http://localhost:8443/api
+
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 
 Vue.use(ElementUI)
+Vue.use(mavonEditor)
 
 router.beforeEach((to, from, next) => {
+    if (store.state.user.username && to.path.startsWith('/admin')) {
+        initAdminMenu(router, store)
+    }
     if (to.meta.requireAuth) {
         if (store.state.user.username) {
-            next()
+            if (store.state.user.username) {
+                next()
+            }
         } else {
             next({
                 path: 'login',
@@ -32,6 +40,41 @@ router.beforeEach((to, from, next) => {
         next()
     }
 })
+
+const initAdminMenu = (router, store) => {
+    if (store.state.adminMenus.length > 0) {
+        return
+    }
+    axios.get('/menu').then(resp => {
+        if (resp && resp.status === 200) {
+            var fmtRoutes = formatRoutes(resp.data)
+            router.addRoutes(fmtRoutes)
+            store.commit('initAdminMenu', fmtRoutes)
+        }
+    })
+}
+
+const formatRoutes = (routes) => {
+    let fmtRoutes = []
+    routes.forEach(route => {
+        if (route.children) {
+            route.children = formatRoutes(route.children)
+        }
+
+        let fmtRoute = {
+            path: route.path,
+            component: resolve => {
+                require(['./components/admin/' + route.component + '.vue'], resolve)
+            },
+            name: route.name,
+            nameZh: route.nameZh,
+            iconCls: route.iconCls,
+            children: route.children
+        }
+        fmtRoutes.push(fmtRoute)
+    })
+    return fmtRoutes
+}
 
 new Vue({
     el: '#app',
