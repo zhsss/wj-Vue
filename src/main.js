@@ -9,12 +9,13 @@ import router from './router'
 import store from './store'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import 'mavon-editor/dist/css/index.css'
 import mavonEditor from 'mavon-editor'
 
 var axios = require('axios')
 axios.defaults.baseURL = 'http://localhost:8443/api'
     // 设置反向代理，前端请求默认发送到 http://localhost:8443/api
-
+axios.defaults.withCredentials = true
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 

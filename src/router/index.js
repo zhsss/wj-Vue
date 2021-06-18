@@ -28,7 +28,7 @@ export default new Router({
                     path: '/strategy',
                     name: 'Strategy',
                     component: () =>
-                        import ('../components/strategy/Article')
+                        import ('../components/strategy/Articles')
                 },
                 {
                     path: '/strategy/article',
@@ -57,6 +57,69 @@ export default new Router({
             path: '/admin',
             name: 'Admin',
             component: AdminIndex,
+            meta: {
+                requireAuth: true
+            }
+        }
+    ]
+})
+
+// 用于创建默认路由
+export const createRouter = routes => new Router({
+    mode: 'history',
+    routes: [{
+            path: '/',
+            name: 'Default',
+            redirect: '/home',
+            component: Home
+        },
+        {
+            // home页面并不需要被访问，只是作为其它组件的父组件
+            path: '/home',
+            name: 'Home',
+            component: Home,
+            redirect: '/index',
+            children: [{
+                    path: '/index',
+                    name: 'AppIndex',
+                    component: () =>
+                        import ('../components/home/AppIndex')
+                },
+                {
+                    path: '/strategy',
+                    name: 'Strategy',
+                    component: () =>
+                        import ('../components/strategy/Articles')
+                },
+                {
+                    path: '/admin/content/editor',
+                    name: 'Editor',
+                    component: () =>
+                        import ('../components/admin/content/ArticleEditor'),
+                    meta: {
+                        requireAuth: true
+                    }
+                }, {
+                    path: '/strategy/article',
+                    name: 'Article',
+                    component: ArticleDetails,
+                    meta: {
+                        requireAuth: true
+                    }
+                }
+            ]
+        },
+        {
+            path: '/login',
+            name: 'Login',
+            component: () =>
+                import ('../components/Login')
+        },
+        {
+            path: '/admin',
+            name: 'Admin',
+            component: () =>
+                import ('../components/admin/AdminIndex'),
             meta: {
                 requireAuth: true
             }
