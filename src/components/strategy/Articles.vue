@@ -1,6 +1,5 @@
 <template>
   <div style="margin-top: 40px">
-    <!--<el-button @click="addArticle()">添加文章</el-button>-->
     <div class="articles-area">
       <el-card style="text-align: left">
         <div v-for="article in articles" :key="article.id">
@@ -13,7 +12,7 @@
             style="margin:18px 0 0 30px;width:100px;height: 100px"
             :src="article.articleCover"
             fit="cover"></el-image>
-          <el-divider></el-divider>
+          <el-divider content-position="right" class="article-author">{{article.articleAuthor}}</el-divider>
         </div>
       </el-card>
     </div>
@@ -43,7 +42,7 @@ export default {
   methods: {
     loadArticles () {
       var _this = this
-      this.$axios.get('/article/' + this.pageSize + '/1').then(resp => {
+      this.$axios.get('/article/current/' + this.pageSize + '/1').then(resp => {
         if (resp && resp.data.code === 200) {
           _this.articles = resp.data.result.content
           _this.total = resp.data.result.totalElements
@@ -52,7 +51,7 @@ export default {
     },
     handleCurrentChange (page) {
       var _this = this
-      this.$axios.get('/article/' + this.pageSize + '/' + page).then(resp => {
+      this.$axios.get('/article/current/' + this.pageSize + '/' + page).then(resp => {
         if (resp && resp.data.code === 200) {
           _this.articles = resp.data.result.content
           _this.total = resp.data.result.totalElements
@@ -75,6 +74,9 @@ export default {
     color: #606266;
   }
   .article-link:hover {
+    color: #409EFF;
+  }
+  .article-author{
     color: #409EFF;
   }
 </style>

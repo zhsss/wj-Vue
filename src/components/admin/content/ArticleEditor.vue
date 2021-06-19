@@ -80,7 +80,9 @@ export default {
             articleContentHtml: render,
             articleAbstract: this.article.articleAbstract,
             articleCover: this.article.articleCover,
-            articleDate: this.article.articleDate
+            articleDate: this.article.articleDate,
+            articleAuthor: this.article.articleAuthor,
+            articleUid: this.article.articleUid
           }).then(resp => {
             if (resp && resp.data.code === 200) {
               this.$message({

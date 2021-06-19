@@ -11,7 +11,7 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'mavon-editor/dist/css/index.css'
 import mavonEditor from 'mavon-editor'
-
+import SearchBar from './components/home/SearchBar.vue'
 var axios = require('axios')
 axios.defaults.baseURL = 'http://localhost:8443/api'
     // 设置反向代理，前端请求默认发送到 http://localhost:8443/api

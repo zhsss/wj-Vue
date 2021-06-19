@@ -35,6 +35,11 @@
           fit>
         </el-table-column>
         <el-table-column
+          prop="articleAuthor"
+          label="攻略作者"
+          width="200">
+        </el-table-column>
+        <el-table-column
           prop="articleDate"
           label="发布日期"
           width="200">
